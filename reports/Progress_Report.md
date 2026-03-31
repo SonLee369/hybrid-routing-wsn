@@ -1,4 +1,3 @@
-# hybrid-routing-wsn
 # Project Progress Report
 
 **Project:** Hybrid Approach of Ant Colony System and Recurrent Neural Network for Energy Efficient Routing in Cognitive Wireless Sensor Networks
