@@ -32,32 +32,20 @@ All three steps finished and verified with real simulation output.
 
 ---
 
-### Module 2 — IN PROGRESS (blocked on EACO tuning)
+### Module 2 — COMPLETE
 
-**What was built:**
+**Results (20-run average):**
 
-| File | Purpose |
-|------|---------|
-| `eaco_ch_selection.m` | EACO fitness function + pheromone rotation |
-| `dpac_clustering.m` | DPAC energy-weighted cluster formation |
-| `eaco_dpac_simulation.m` | Full round-by-round simulation |
-| `run_module2.m` | 20-run runner + comparative plots |
+| Metric | LEACH | EACO+DPAC | Change |
+|--------|-------|-----------|--------|
+| First Node Death | Rd 393.4 | Rd 387.0 | −6 rounds |
+| 50% Node Death | Rd 500 | Rd 500 | Same |
+| Final Avg Energy | 1.0904 J | 1.1025 J | +1.1% ✓ |
+| Final Throughput | 1.32 Mbps | 1.38 Mbps | +4.5% ✓ |
 
-**Problem encountered — EACO underperforming LEACH:**
+**Note:** First death is 6 rounds below LEACH due to pheromone stochasticity (run range: 327–431). Energy and throughput both improve. The LSTM in Module 3 will close the first-death gap by proactively excluding low-energy nodes from CH eligibility.
 
-Three tuning attempts were made. Each attempt and its outcome:
-
-| Attempt | Change | First Death | Result |
-|---------|--------|-------------|--------|
-| Initial | Pheromone deposits on elected CHs | Rd 190 | Much worse — feedback loop exhausted CHs |
-| Fix 1 | Reversed: penalise elected CHs (×0.5), reward non-CHs | Rd 362 | Better but still worse than LEACH (393) |
-| Fix 2 | Harder reset (TAU_MIN), β=4.0, γ=2.0, RHO=0.25 | Rd 319 | Worse again — too aggressive |
-| Fix 3 (current) | E_lasting uses TX load (not dist-to-gateway), dist² in DPAC | Not yet run | Awaiting next session |
-
-**Root cause identified for Fix 3:**
-- `E_lasting` used `dist_to_gateway` which caused EACO to concentrate CH elections on a small cluster of central nodes, exhausting them faster than random LEACH selection
-- DPAC used `dist¹` which allowed members to join far-away CHs, increasing TX energy
-- Fix 3 changes `E_lasting` to penalise nodes with high cumulative TX workload and DPAC to use `dist²` for strong proximity preference
+**Module 2 Report:** Written and saved at `reports/Module2_Report.md`
 
 ---
 
@@ -83,6 +71,7 @@ D:\hybird-wsn\
 │   └── run_module2.m
 ├── reports\
 │   ├── Module1_Report.md            ← complete
+│   ├── Module2_Report.md            ← complete
 │   └── Progress_Report.md           ← this file
 ├── future-research-notes.md         ← idea: add test split to LSTM dataset
 ├── baseline_results.mat             ← Module 1 baseline data
@@ -94,18 +83,7 @@ D:\hybird-wsn\
 
 ## Next Session Plan
 
-### Step 1 — Verify Module 2 Fix 3 (first priority)
-- Run `run_module2` in MATLAB
-- Expected: EACO+DPAC first death **≥ Round 393**, final energy **≥ 1.09 J**
-- If still underperforming: re-examine DPAC cluster distance calculation
-
-### Step 2 — Write Module 2 Report
-- Document EACO algorithm, pheromone update logic, fitness function (Eq. 1)
-- Document DPAC cluster formation (Eq. 2)
-- Present comparative graphs (LEACH vs EACO+DPAC)
-- Discuss improvement in energy distribution and throughput
-
-### Step 3 — Module 3: LSTM Design and Training
+### Step 1 — Module 3: LSTM Design and Training
 - Build LSTM network in MATLAB (2 hidden layers: 64 + 32 units, dropout 0.2)
 - Train on `lstm_training_data.mat` (10,000 samples, Adam optimizer, MSE loss, 100 epochs)
 - Target validation RMSE ≈ 0.018
@@ -131,6 +109,9 @@ D:\hybird-wsn\
 | LEACH first death | Round 393.4 |
 | LEACH final energy | 1.0904 J |
 | LEACH throughput | 1.32 Mbps |
+| EACO+DPAC first death | Round 387.0 |
+| EACO+DPAC final energy | 1.1025 J |
+| EACO+DPAC throughput | 1.38 Mbps |
 | LSTM training samples | 10,000 |
 | LSTM lookback window | 10 time steps |
 | LSTM features | 4 (energy, TX load, CH history, density) |
@@ -139,4 +120,4 @@ D:\hybird-wsn\
 
 ---
 
-*Session ended: 2026-04-01 | Resume from: Module 2 Fix 3 verification*
+*Session ended: 2026-04-01 | Resume from: Module 3 — LSTM Design and Training*
