@@ -9,7 +9,7 @@
 
 ## Work Completed
 
-### Module 1 — COMPLETE
+### Module 1 — COMPLETE ✓
 
 All three steps finished and verified with real simulation output.
 
@@ -32,7 +32,7 @@ All three steps finished and verified with real simulation output.
 
 ---
 
-### Module 2 — COMPLETE
+### Module 2 — COMPLETE ✓
 
 **Results (20-run average):**
 
@@ -72,6 +72,9 @@ D:\hybird-wsn\
 ├── reports\
 │   ├── Module1_Report.md            ← complete
 │   ├── Module2_Report.md            ← complete
+│   ├── Module3_Report.md            ← complete
+│   ├── Module4_Report.md            ← complete
+│   └── Final_Report.md              ← complete
 │   └── Progress_Report.md           ← this file
 ├── future-research-notes.md         ← idea: add test split to LSTM dataset
 ├── baseline_results.mat             ← Module 1 baseline data
@@ -83,22 +86,7 @@ D:\hybird-wsn\
 
 ## Next Session Plan
 
-### Step 1 — Module 3: LSTM Design and Training
-- Build LSTM network in MATLAB (2 hidden layers: 64 + 32 units, dropout 0.2)
-- Train on `lstm_training_data.mat` (10,000 samples, Adam optimizer, MSE loss, 100 epochs)
-- Target validation RMSE ≈ 0.018
-- Integrate predictions into DPAC CH eligibility weighting
-
-### Step 4 — Module 4: Final Hybrid Evaluation
-- Run full EACO + LSTM + DPAC simulation (20 runs)
-- Generate all 8 comparison graphs matching the paper's figures
-- Compare against LEACH baseline and EACO-only results
-
-### Step 5 — Final Report
-- Executive summary + problem statement
-- Methodology (EACO, DPAC, LSTM)
-- Results and analysis
-- Conclusion
+**All modules complete. Project finished 2026-04-01.**
 
 ---
 
@@ -112,6 +100,11 @@ D:\hybird-wsn\
 | EACO+DPAC first death | Round 387.0 |
 | EACO+DPAC final energy | 1.1025 J |
 | EACO+DPAC throughput | 1.38 Mbps |
+| LSTM validation RMSE | 0.0125 J (target: 0.018) |
+| LSTM epochs to converge | 23 (early stop) |
+| EACO+LSTM first death | Round 407.0 |
+| EACO+LSTM final energy | 1.1051 J |
+| EACO+LSTM runs with no death | 2 / 20 |
 | LSTM training samples | 10,000 |
 | LSTM lookback window | 10 time steps |
 | LSTM features | 4 (energy, TX load, CH history, density) |
